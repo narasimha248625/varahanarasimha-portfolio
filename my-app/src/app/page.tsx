@@ -1,6 +1,6 @@
 "use client";
+
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Home, User, Briefcase, Code, Mail } from "lucide-react";
 import HomePage from "../components/HomePage";
 import AboutPage from "../components/AboutPage";
@@ -11,7 +11,7 @@ import ContactPage from "../components/ContactPage";
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState("home");
-  
+
   const navigationItems = [
     { id: "home", label: "Home", icon: Home },
     { id: "about", label: "About", icon: User },
