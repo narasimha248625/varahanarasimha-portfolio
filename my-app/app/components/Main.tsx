@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X, Home, User, Briefcase, Code, Mail } from "lucide-react";
-import HomePage from "../components/HomePage";
-import AboutPage from "../components/AboutPage";
-import PortfolioPage from "../components/PortfolioPage";
-import ServicesPage from "../components/ServicesPage";
-import ContactPage from "../components/ContactPage";
+import HomePage from "./HomePage";
+import AboutPage from "./AboutPage";
+import PortfolioPage from "./PortfolioPage";
+import ServicesPage from "./ServicesPage";
+import ContactPage from "./ContactPage";
 
-const Index = () => {
+const Main = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState("home");
 
@@ -122,9 +122,7 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="pt-16">
-        {renderCurrentPage()}
-      </main>
+      <main className="pt-16">{renderCurrentPage()}</main>
 
       {/* Footer */}
       <footer className="bg-black text-white py-8">
@@ -138,4 +136,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Main;

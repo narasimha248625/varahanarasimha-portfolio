@@ -3,48 +3,43 @@ import { Mail, Phone, Send, CheckCircle, MapPin } from "lucide-react";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [responseMessage, setResponseMessage] = useState("");
+  const [responseMessage, setResponseMessage] = useState('');
   const [isError, setIsError] = useState(false);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setResponseMessage("");
+    setResponseMessage('');
     setIsError(false);
 
     try {
-      const res = await fetch("https://formspree.io/f/xeokoolj", {
-        // Replace with your Formspree endpoint
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('https://formspree.io/f/xeokoolj', { // Replace with your Formspree endpoint
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       if (res.ok) {
-        setResponseMessage("Thank you! Your message has been sent successfully.");
+        setResponseMessage('Thank you! Your message has been sent successfully.');
         setIsSubmitted(true);
-        setFormData({ name: "", email: "", subject: "", message: "" });
+        setFormData({ name: '', email: '', subject: '', message: '' });
         setTimeout(() => setIsSubmitted(false), 3000);
       } else {
-        throw new Error("Failed to send message. Please try again later.");
+        throw new Error('Failed to send message. Please try again later.');
       }
-    } catch (error: unknown) {
+    } catch (error) {
       setIsError(true);
-      const message =
-        error instanceof Error ? error.message : "Something went wrong.";
-      setResponseMessage(message);
+      setResponseMessage(error.message || 'Something went wrong.');
     }
   };
 
@@ -55,8 +50,7 @@ const ContactPage = () => {
         <div className="text-center mb-16 animate-fade-in">
           <h1 className="text-5xl font-bold mb-6">Get In Touch</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Ready to bring your ideas to life? Let's discuss your project and
-            create something amazing together.
+            Ready to bring your ideas to life? Let's discuss your project and create something amazing together.
           </p>
         </div>
 
@@ -64,7 +58,7 @@ const ContactPage = () => {
           {/* Contact Information */}
           <div className="animate-fade-in">
             <h2 className="text-3xl font-bold mb-8">Let's Connect</h2>
-
+            
             <div className="space-y-6 mb-12">
               {/* Email */}
               <div className="flex items-center space-x-4 p-6 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-all duration-300">
@@ -73,7 +67,7 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-lg">Email</h3>
-                  <a
+                  <a 
                     href="mailto:varahanarasimhalogisa25@gmail.com"
                     className="text-gray-600 hover:text-black transition-colors duration-300"
                   >
@@ -89,7 +83,7 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-lg">Phone</h3>
-                  <a
+                  <a 
                     href="tel:+917995853246"
                     className="text-gray-600 hover:text-black transition-colors duration-300"
                   >
@@ -114,9 +108,8 @@ const ContactPage = () => {
             <div className="bg-black text-white rounded-2xl p-8">
               <h3 className="text-xl font-bold mb-4">Quick Response Guaranteed</h3>
               <p className="text-gray-300 mb-4">
-                I typically respond to all inquiries within 24 hours. Whether
-                you have a question about a project or want to discuss a new
-                opportunity, I'm here to help.
+                I typically respond to all inquiries within 24 hours. Whether you have a question 
+                about a project or want to discuss a new opportunity, I'm here to help.
               </p>
               <div className="flex items-center space-x-2">
                 <CheckCircle size={20} className="text-green-400" />
@@ -129,7 +122,7 @@ const ContactPage = () => {
           <div className="animate-fade-in">
             <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
               <h3 className="text-2xl font-bold mb-6">Send me a message</h3>
-
+              
               {isSubmitted && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center space-x-3">
                   <CheckCircle className="text-green-500" size={20} />
@@ -137,19 +130,10 @@ const ContactPage = () => {
                 </div>
               )}
 
-              {isError && !isSubmitted && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3">
-                  <span className="text-red-700">{responseMessage}</span>
-                </div>
-              )}
-
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-gray-700 mb-2"
-                    >
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                       Full Name
                     </label>
                     <input
@@ -164,10 +148,7 @@ const ContactPage = () => {
                     />
                   </div>
                   <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-gray-700 mb-2"
-                    >
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                       Email Address
                     </label>
                     <input
@@ -184,10 +165,7 @@ const ContactPage = () => {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
                     Subject
                   </label>
                   <input
@@ -203,10 +181,7 @@ const ContactPage = () => {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                     Message
                   </label>
                   <textarea
@@ -238,9 +213,8 @@ const ContactPage = () => {
           <div className="bg-gray-50 rounded-2xl p-12">
             <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              From initial concept to final delivery, I'm committed to turning
-              your vision into reality. Let's discuss how we can work together
-              to create something extraordinary.
+              From initial concept to final delivery, I'm committed to turning your vision into reality. 
+              Let's discuss how we can work together to create something extraordinary.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

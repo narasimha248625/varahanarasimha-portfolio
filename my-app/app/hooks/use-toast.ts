@@ -91,7 +91,7 @@ export const reducer = (state: State, action: Action): State => {
       const { toastId } = action
 
       // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but kept here for simplicity
+      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -112,7 +112,6 @@ export const reducer = (state: State, action: Action): State => {
         ),
       }
     }
-
     case "REMOVE_TOAST":
       if (action.toastId === undefined) {
         return {
@@ -124,9 +123,6 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         toasts: state.toasts.filter((t) => t.id !== action.toastId),
       }
-
-    default:
-      return state
   }
 }
 
@@ -136,7 +132,9 @@ let memoryState: State = { toasts: [] }
 
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action)
-  listeners.forEach((listener) => listener(memoryState))
+  listeners.forEach((listener) => {
+    listener(memoryState)
+  })
 }
 
 type Toast = Omit<ToasterToast, "id">
@@ -149,7 +147,6 @@ function toast({ ...props }: Toast) {
       type: "UPDATE_TOAST",
       toast: { ...props, id },
     })
-
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })
 
   dispatch({
@@ -158,14 +155,14 @@ function toast({ ...props }: Toast) {
       ...props,
       id,
       open: true,
-      onOpenChange: (open: boolean) => {
+      onOpenChange: (open) => {
         if (!open) dismiss()
       },
     },
   })
 
   return {
-    id,
+    id: id,
     dismiss,
     update,
   }
@@ -176,14 +173,13 @@ function useToast() {
 
   React.useEffect(() => {
     listeners.push(setState)
-
     return () => {
       const index = listeners.indexOf(setState)
       if (index > -1) {
         listeners.splice(index, 1)
       }
     }
-  }, [])
+  }, [state])
 
   return {
     ...state,
