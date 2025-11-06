@@ -39,7 +39,7 @@ const ContactPage = () => {
       }
     } catch (error) {
       setIsError(true);
-      setResponseMessage(error.message || 'Something went wrong.');
+      setResponseMessage('Something went wrong.');
     }
   };
 
