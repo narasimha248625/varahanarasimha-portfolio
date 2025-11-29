@@ -1,9 +1,9 @@
-name: Deploy to EC2
+name: Deploy Next.js Docker App
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -11,22 +11,29 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Deploy to EC2 Server
+      - name: Copy project to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          source: "."
+          target: "/home/ubuntu/my-app"
+
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.5
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/deploy/varahanarasimha-portfolio
-            git pull origin main
+            cd /home/ubuntu/my-app
 
-            cd my-app
-            npm install --legacy-peer-deps
-            npm run build
+            docker build -t my-nextjs-app .
 
-            pm2 stop nextapp || true
-            pm2 start npm --name "nextapp" -- start
-            pm2 save
+            docker stop portfolio || true
+            docker rm portfolio || true
+
+            docker run -d --name portfolio -p 9676:3000 my-nextjs-app
